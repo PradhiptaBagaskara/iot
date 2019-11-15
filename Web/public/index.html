@@ -75,7 +75,10 @@
                             <button style="background-color: #6272A4; color: #fff; width: 50%;" type="submit" class="btn btn-primary" onclick="reloadpage()">REFRESH PAGE</button>
                           </div>
                           <div id="status">
-                            <button style="background-color: #CFCFCF; color: #000; width: 50%;" type="submit" class="btn btn-primary">MOHON TUNGGU...</button>
+                            <button  style="background-color: #CFCFCF; color: #000; width: 50%;" class="btn btn-primary">MOHON TUNGGU...</button>
+                          </div>
+                          <div id="menyala">
+                            <button  style="background-color: #fafa; color: #000; width: 50%;" class="btn btn-primary">MOHON TUNGGU...</button>
                           </div>
                         </center>
                         <br>
@@ -150,6 +153,7 @@
 
  <script>
    // Initialize Firebase
+   $("#menyala").hide();
    var config = {
      apiKey: "AIzaSyAniPgkkT5YqgzV6CmHGPgUnKRchnkJc3U",
       authDomain: "smart-keran.firebaseapp.com",
@@ -163,34 +167,41 @@
    };
 
    firebase.initializeApp(config);
-
-    var f_database    = firebase.database();
-
+    var ref = firebase.database().ref("onlineState");
+    ref.onDisconnect().set(false);
+    // ... sometime later
+    ref.onDisconnect().cancel();
+        var f_database    = firebase.database();
+    console.log("rwgfgevvgeg");
 
     //value biasa
     var waktu = f_database.ref('/pukul').on('value', function (snapshot) {
       console.log(snapshot.val())
     })
     f_database.ref().on("value", function(snapshot) {
-      var status   = snapshot.child("keran_status").val();
-      var kontrol   = snapshot.child("mode_control").val();
-      console.log("status "+status);
+          var status   = snapshot.child("keran_status").val();
+          var kontrol   = snapshot.child("mode_control").val();
+          var kontrol2 = '';
+          console.log(kontrol);
+           if (kontrol == 0) {
+              kontrol1 = "<button style=\"background-color: orange; width: 50%;\" type=\"submit\" value=\"RESET\" onclick=\"mode_manual()\" class=\"btn btn-primary\">Set Mode Manual</button>";
+            }
+            if (kontrol == 1) {
+              $("#menyala").show();
 
-      if (status == 0) {
-        status = "<button style=\"background-color: #CFCFCF; color: #000; width: 50%;\" type=\"submit\" value=\"RESET\" onclick=\"mode_manual()\" class=\"btn btn-primary\">Mode Manual</button>";
-      }
-      else {
-        status = "<button style=\"background-color: #f00; color: #fff; width: 50%;\" type=\"submit\" value=\"RESET\" onclick=\"mode_otomatis()\" class=\"btn btn-primary\">Mode Otomatis</button>";
-      }
-      $(document).ready(function(){
-        setInterval(function(){
-          console.log('zzz')
-          // document.getElementById("waktu")    .innerHTML  = waktu+" WIB"+" | "+tanggal;
-          // document.getElementById("kecepatan")  .innerHTML  = kecepatan+" mL/S";
-          // document.getElementById("total")    .innerHTML  = total+" mL";
-          document.getElementById("status")   .innerHTML  = status;
-        }, 5000);
-      });
+              kontrol1 = "<button style=\"width: 50%;\" type=\"submit\" value=\"RESET\" onclick=\"mode_otomatis()\" class=\"btn btn-success\">Set Mode Otomatis</button>";
+              if (status == 1){
+                kontrol2 = "<button style=\"background-color: orange; width: 50%;\" type=\"submit\" value=\"RESET\" onclick=\"matikan()\" class=\"btn btn-primary\">Matikan Keran</button>";
+              }if (status == 0){
+                kontrol2 = "<button style=\" width: 50%;\" type=\"submit\" value=\"RESET\" onclick=\"nyalakan()\" class=\"btn btn-success\">Nyalakan Keran</button>";
+              }
+
+            }
+
+          document.getElementById("menyala")   .innerHTML  = kontrol2;
+
+          document.getElementById("status")   .innerHTML  = kontrol1;
+      
 
       
 
@@ -205,7 +216,7 @@
       snapshot.forEach(function(childSnapshot) {
         var idHari = childSnapshot.key;
         childSnapshot.forEach(function(childSnapshot){
-          var idJam = childSnapshot.key;
+         var idJam = childSnapshot.key;
           var detail = childSnapshot.val();
           var row       = detail_table.insertRow(detail_rowIndex);
           var detail_nomor  = row.insertCell(0);
@@ -213,12 +224,16 @@
           var detail_waktu  = row.insertCell(2);
           var detail_jumlah = row.insertCell(3);
 
+       
+
           detail_nomor  .appendChild(document.createTextNode(detail_rowIndex));
           detail_tanggal  .appendChild(document.createTextNode(detail.tanggal));
           detail_waktu  .appendChild(document.createTextNode(detail.pukul+" WIB"));
           detail_jumlah .appendChild(document.createTextNode("ketinggian air adalah "+detail.volume_air+" cm"));
 
           detail_rowIndex = detail_rowIndex + 1;
+
+       
             console.log(idHari);
 
             console.log(detail)
@@ -247,6 +262,20 @@
 
         reloadpage();
       });
+    }
+
+    function nyalakan(){
+      f_database.ref("keran_status").set(1);
+      alert("Keran Menyala.");
+        reloadpage();
+
+    }
+
+    function matikan(){
+      f_database.ref("keran_status").set(0);
+      alert("Keran Mati.");
+        reloadpage();
+
     }
 
     $(document).ready(function() {

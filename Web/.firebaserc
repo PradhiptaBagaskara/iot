@@ -1,6 +1,7 @@
 {
   "projects": {
     "default": "smart-keran",
-    "kerancerdas": "smart-keran"
+    "keranku": "smart-keran",
+    "mykeran": "smart-keran"
   }
 }

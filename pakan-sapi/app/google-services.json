@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "909454132854",
+    "firebase_url": "https://pakan-sapi.firebaseio.com",
+    "project_id": "pakan-sapi",
+    "storage_bucket": "pakan-sapi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:909454132854:android:edb75f9e996e8284a74157",
+        "android_client_info": {
+          "package_name": "bon.ruvio.pakansapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "909454132854-61oa6om70n8i7kk0gnp1iaehcnfeapm4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "bon.ruvio.pakansapi",
+            "certificate_hash": "c9e4af9ed391f066f122a24cbdbeb67f32f730f7"
+          }
+        },
+        {
+          "client_id": "909454132854-rpas5j886aslgkhhrl8kgbvcb5mgqpsl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN_PdHhkVBIxt317rMeU0B0wanq8KrDv8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "909454132854-rpas5j886aslgkhhrl8kgbvcb5mgqpsl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
